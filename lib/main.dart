@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:padel_space/screens/home_screen.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const PadelSpaceApp());
 }
 
@@ -14,7 +15,7 @@ class PadelSpaceApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Padel Space',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xFFF4F6FB)),
       initialRoute: '/',
       getPages: [GetPage(name: '/', page: () => HomeView())],
     );

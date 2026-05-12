@@ -5,11 +5,6 @@ import 'package:padel_space/screens/detail_court_screen.dart';
 class HomeController extends GetxController {
   var searchText = ''.obs;
 
-  void resetSearch() {
-    searchText.value = '';
-    filteredCourts.assignAll(allCourts);
-  }
-
   var allCourts = <Map<String, String>>[
     {
       'name': 'Sport Padel Club',
@@ -101,27 +96,25 @@ class HomeView extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 0,
-        actionsPadding: EdgeInsets.symmetric(horizontal: 20),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 20),
         surfaceTintColor: Colors.transparent,
-        leading: Icon(Icons.sports_tennis),
+        leading: const Icon(Icons.sports_tennis),
         actions: [
-          IconButton(icon: Icon(Icons.notifications_none), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.notifications_none),
+            onPressed: () {},
+          ),
         ],
       ),
-      backgroundColor: Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _heroSection(),
-
+              const HeroSection(),
               const SizedBox(height: 16),
-
-              _searchLocationCourt(controller: controller),
-
+              SearchLocationCourt(controller: controller),
               const SizedBox(height: 16),
-
-              // TITLE
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -159,10 +152,7 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 8),
-
-              // LIST COURT (IMPORTANT)
               Obx(() {
                 return ListView.builder(
                   shrinkWrap: true,
@@ -183,8 +173,8 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class _heroSection extends StatelessWidget {
-  const _heroSection({super.key});
+class HeroSection extends StatelessWidget {
+  const HeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -192,9 +182,8 @@ class _heroSection extends StatelessWidget {
       height: 220,
       child: Stack(
         children: [
-          // BACKGROUND IMAGE (KANAN)
           Positioned(
-            right: 0, // sedikit keluar biar aesthetic
+            right: 0,
             bottom: 0,
             child: Image.asset(
               'assets/images/hero_padel_player_pastel.png',
@@ -202,8 +191,6 @@ class _heroSection extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-
-          // TEXT (KIRI)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Align(
@@ -220,7 +207,6 @@ class _heroSection extends StatelessWidget {
                       height: 1.2,
                     ),
                   ),
-
                   Text(
                     'PADEL COURT',
                     style: TextStyle(
@@ -230,7 +216,6 @@ class _heroSection extends StatelessWidget {
                       color: Color(0xFFA9B4FF),
                     ),
                   ),
-
                   Text(
                     'ANYTIME,\nANYWHERE',
                     style: TextStyle(
@@ -239,8 +224,6 @@ class _heroSection extends StatelessWidget {
                       height: 1.2,
                     ),
                   ),
-
-                  // SizedBox(height: 8),
                   Text(
                     'Main kapan aja,\ndi lapangan terbaik.',
                     style: TextStyle(fontSize: 12, color: Colors.black87),
@@ -255,8 +238,8 @@ class _heroSection extends StatelessWidget {
   }
 }
 
-class _searchLocationCourt extends StatelessWidget {
-  const _searchLocationCourt({required this.controller});
+class SearchLocationCourt extends StatelessWidget {
+  const SearchLocationCourt({required this.controller, super.key});
 
   final HomeController controller;
 
@@ -268,104 +251,31 @@ class _searchLocationCourt extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
-
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color(0xFFDCE8FF),
               blurRadius: 12,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
-
         child: TextField(
           onChanged: controller.search,
-
           decoration: InputDecoration(
             hintText: "Cari lokasi atau nama lapangan...",
             hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-
             prefixIcon: const Icon(Icons.search),
-
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(0),
-              child: GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    backgroundColor: Colors.white,
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text("Filter Lokasi"),
-
-                          ListTile(
-                            title: const Text("Jakarta"),
-                            onTap: () {
-                              controller.search("jakarta");
-                              Get.back();
-                            },
-                          ),
-
-                          ListTile(
-                            title: const Text("Bogor"),
-                            onTap: () {
-                              controller.search("bogor");
-                              Get.back();
-                            },
-                          ),
-
-                          ListTile(
-                            title: const Text("Bekasi"),
-                            onTap: () {
-                              controller.search("bekasi");
-                              Get.back();
-                            },
-                          ),
-
-                          ListTile(
-                            title: const Text("Depok"),
-                            onTap: () {
-                              controller.search("depok");
-                              Get.back();
-                            },
-                          ),
-
-                          ListTile(
-                            title: const Text("Tangerang"),
-                            onTap: () {
-                              controller.search("tangerang");
-                              Get.back();
-                            },
-                          ),
-
-                          ListTile(
-                            title: const Text("Reset"),
-                            onTap: () {
-                              controller.resetSearch();
-                              Get.back();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD3F4E8),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                  ),
-                  child: const Icon(Icons.tune, color: Colors.black, size: 24),
+            suffixIcon: Container(
+              width: 48,
+              height: 48,
+              decoration: const BoxDecoration(
+                color: Color(0xFFD3F4E8),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
               ),
+              child: const Icon(Icons.tune, color: Colors.black, size: 24),
             ),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(16),
@@ -394,10 +304,8 @@ Widget _buildCourtCard(BuildContext context, Map<String, String> court) {
           ),
         ],
       ),
-
       child: Row(
         children: [
-          // IMAGE
           Container(
             width: 130,
             decoration: BoxDecoration(
@@ -408,10 +316,7 @@ Widget _buildCourtCard(BuildContext context, Map<String, String> court) {
               ),
             ),
           ),
-
           const SizedBox(width: 12),
-
-          // CONTENT
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,42 +325,33 @@ Widget _buildCourtCard(BuildContext context, Map<String, String> court) {
                   court['name']!,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-
                 const SizedBox(height: 4),
-
                 Row(
                   children: [
-                    Icon(Icons.location_on, size: 12, color: Colors.red),
-                    SizedBox(width: 4),
+                    const Icon(Icons.location_on, size: 12, color: Colors.red),
+                    const SizedBox(width: 4),
                     Text(
                       court['location']!,
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 8),
-
                 Row(
                   children: const [
                     Icon(Icons.camera_indoor, size: 12),
                     SizedBox(width: 4),
                     Text("Indoor", style: TextStyle(fontSize: 12)),
-
                     SizedBox(width: 12),
-
                     Icon(Icons.people, size: 12),
                     SizedBox(width: 4),
                     Text("4 Pemain", style: TextStyle(fontSize: 12)),
                   ],
                 ),
-
                 const Spacer(),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // PRICE
                     RichText(
                       text: TextSpan(
                         children: [
@@ -481,7 +377,6 @@ Widget _buildCourtCard(BuildContext context, Map<String, String> court) {
                         ],
                       ),
                     ),
-
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
@@ -489,7 +384,7 @@ Widget _buildCourtCard(BuildContext context, Map<String, String> court) {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  DetailCourtPage(court: court),
+                                  DetailCourtScreen(court: court),
                             ),
                           );
                         },
